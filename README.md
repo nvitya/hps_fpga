@@ -78,3 +78,4 @@ And reboot and LW bridge is active.
 You can check with "dmesg".
 
 ## AXI Bus
+The AXI bus is the standard internal hi-speed bus intern in the ARM processors.
