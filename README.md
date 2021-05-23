@@ -35,8 +35,7 @@ So you want to communicate with your own FPGA code using your own ARM code on th
 There should be some address range reserved in the 4G space where you can map your own FPGA registers. Yes this is how it works.
 
 ## ALTERA SOC Memory Map
-This can be found at the Chapter 2-18 of Cyclone V HPS Reference Manual
-
+This can be found at the Chapter 2-18 of Cyclone V HPS Reference Manual:
 ```
 0000_0000: BOOT / SDRAM (3 GB)
 C000_0000: FPGA Slaves (960 MB)
@@ -49,7 +48,27 @@ FC00_0000: Peripherals (64 MB)
     FF70_0000: Ethernet MAC0 registers
     ...
 ``` 
+So you have three bridges and two memory mapped areas to communicate with your own FPGA.
+The FPGA->HPS bridge is rather for implementing a DMA in the FPGA.
+There is a light-weight HPS->FPGA bridge and a "full/heavy" one.
+The LW has only 2MByte memory range at 0xFF200000. The other one 960 MByte at 0xC0000000.
+I've played only with the LW so far.
 
+## Activating the LW Bridge
+Unfortunately the LW bridge was deactivated in the Linux from Mr. Kawazome (https://github.com/ikwzm/FPGA-SoC-Linux).
+It took a while until I figured it out. And then additionally a litte to solve it.
+The compiled device tree must be placed to the boot partition at /mnt/boot fortunately there are the source files too (devicetree-5.4.105-socfpga.dts).
+Just search for "fpga_bridge@ff400000" and set the bridge-enable to 0x01.
+```
+    fpga_bridge@ff400000 {
+            compatible = "altr,socfpga-lwhps2fpga-bridge";
+            reg = <0xff400000 0x100000>;
+            resets = <0x06 0x61>;
+            clocks = <0x05>;
+            bridge-enable = <0x01>;
+            phandle = <0x25>;
+    };
+```                
 
 
 
