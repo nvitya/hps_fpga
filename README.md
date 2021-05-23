@@ -26,7 +26,7 @@ With the debian you can install the compilers you want, the tools you like. The 
 
 So I could develop Linux application for the ARM Linux. That's fine, but I have much better and cheaper boards for that, like the Raspberry PI 4.
 
-## Developing FPGA + ARM Applications
+# Developing FPGA + ARM Applications
 
 This is much-much more challenging than I thought...
 And unfortunately I began with not the right examples and tutorials.
@@ -55,6 +55,7 @@ The LW has only 2MByte memory range at 0xFF200000. The other one 960 MByte at 0x
 I've played only with the LW so far.
 
 ## Activating the LW Bridge
+You don't need to bother this if you are using the original Linux image from terasic.
 Unfortunately the LW bridge was deactivated in the Linux from Mr. Kawazome (https://github.com/ikwzm/FPGA-SoC-Linux).
 It took a while until I figured it out. And then additionally a litte to solve it.
 The compiled device tree must be placed to the boot partition at /mnt/boot fortunately there are the source files too (devicetree-5.4.105-socfpga.dts).
@@ -69,6 +70,11 @@ Just search for "fpga_bridge@ff400000" and set the bridge-enable to 0x01.
             phandle = <0x25>;
     };
 ```                
+Compile with
+```
+# dtc -O dtb -o devicetree-5.4.105-socfpga.dtb devicetree-5.4.105-socfpga.dts
+```
+And reboot and LW bridge is active.
+You can check with "dmesg".
 
-
-
+## AXI Bus
