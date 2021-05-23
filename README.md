@@ -37,17 +37,18 @@ There should be some address range reserved in the 4G space where you can map yo
 ## ALTERA SOC Memory Map
 This can be found at the Chapter 2-18 of Cyclone V HPS Reference Manual
 
+```
 0000_0000: BOOT / SDRAM (3 GB)
 C000_0000: FPGA Slaves (960 MB)
 FC00_0000: Peripherals (64 MB)
- FF20_0000: LW Slaves (2M)
- FF40_0000: LW HPS->FPGA Bridge Registers
- FF50_0000: HPS->FPGA Bridge Registers
- FF60_0000: FPGA->HPS Bridge Registers
- FF70_0000: HPS Integrated peripherals
-   FF70_0000: Ethernet MAC0 registers
-   ...
- 
+  FF20_0000: LW Slaves (2M)
+  FF40_0000: LW HPS->FPGA Bridge Registers
+  FF50_0000: HPS->FPGA Bridge Registers
+  FF60_0000: FPGA->HPS Bridge Registers
+  FF70_0000: HPS Integrated peripherals
+    FF70_0000: Ethernet MAC0 registers
+    ...
+``` 
 
 
 
