@@ -12,6 +12,10 @@ The actual board I experienced with is a DE0-Nano-SoC but also called as Atlas-S
 ## Pure FPGA Development
 The board can be used also for pure FPGA development, just like anoter board without integrated Hard Processors. For the Altera/Intel development you need to download the Intel Quartus Lite with the Cyclone V package. The board has an integrated USB Blaster, so the FPGA development is easy.
 
+### Design Template
+There is a design template for the board here https://fpgacloud.intel.com/devstore/platform/17.0.0/Standard/atlas-soc-de0-nano-soc-baseline-pinout/
+At least it defines the IO PIN connections, but **Unfortunately the clocks in the TOP template (de0_nano_soc_baseline.v) have wrong names so you have to correct them from FPGA_CLKx_5 to CLOCKx_50.**
+
 ## The Linux...
 The Terasic provides a Linux image with and Angström (?) Linux on it. The board has an intergrated FTDI USB-UART where you see the Linux console messages and you can log-in, check the board actual IP address, to log in via SSH for smoother control.
 
@@ -94,7 +98,7 @@ All of these channels are handshaked with their VALID and READY signals. Data ca
 
 So interfacing something to the AXI bus is much more complicated than a traditional ADDRESS, DATA, CSEL, RDEN, WREN bus.
 
-# Aiding tool: Platform Designer aka. QSYS
+## Aiding tool: Platform Designer aka. QSYS
 
 In the Quartus at the **Tools** menu can be found the **Platform Designer**. With this tool you can add IP cores visually bind them and set their properties.
 When it is ready you can generate the VHDL code from it, which has to be then added to the project.
@@ -103,4 +107,8 @@ The minimal requiremenst for controlling the FPGA LEDS are:
   - Clock Source (automatically added for new projects)
   - Arria/Cyclone V Hard Processor System
   - PIO (Parallel IO) Intel FPGA IP
+
+You have to click the connections, define the exports. There are some tutorials for that. Better take a working project and check their settings. I took the HPS_CONTROL_FPGA_LED from the official board examples. This project has more than the LEDS control. It took a while until I managed to have a minimal set only for the LEDs control.
+
+The Intel/Altera suggests to add the generated QIP file to the project.
 
