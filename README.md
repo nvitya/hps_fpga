@@ -128,3 +128,17 @@ But the end it worked.
 
 Thats ok.
 
+## Loading the FPGA Bitstream
+Later the bitstream should be used via Device Tree overlays, which also defines the coupled kernel module (driver).
+For the developments it totally fine loading the bitstream manually using the Quartus/Tools/Programmer.
+The on board USB Blaster must be connected. For Linux dev. env. some one-time UDEV rules setup also required: https://rocketboards.org/foswiki/Documentation/UsingUSBBlasterUnderLinux.
+
+The Progammer Setup is a bit tricky here, because there is a HPS also in the JTAG chain. So first you have to press "Auto Detect", then add the .sof file to the FPGA part and delete the other FPGA part. And then the programming goes, the orange led beside the blue one signalises that the FPGA is configured.
+
+## Test App
+You can find the source codes of a test application at test4/app. There is a Makefile, so from linux, when the cross compiler arm-linux-gnueabihf-gcc installed, just compiles with "make".
+Copy the "app_test4" to the board with scp/sftp. Set the execution right bit with "chmod +x app_test4" and start with ./app_test4.
+
+Then hopefully the LEDs are displaying binary counting.
+
+In case of "bus error" please check the part "Activating the LW Bridge" earlier.
