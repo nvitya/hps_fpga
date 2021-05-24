@@ -119,7 +119,7 @@ Ah, yeah I have fast AMD Ryzen 3700X (8 x 3.6GHz) PC, so that should not be a pr
 I definitely don't want to wait every time for 3-4 minutes to find out I made a typing mistake at a signal name.
 So this is a no-go. Sadly.
 
-## Fast Compile Time without QSYS
+## Compile/Synthesis without QSYS
 I made a test. Took all the QSYS (Platform Designer) generated files and the necessary IP cores, and added only those to the project without the QIP file.
 I had to delete the SDRAM signals from some places. It took a while until I identified all the necessary components (like altera_merlin_burst_adapter_13_1.sv).
 But the end it worked.
