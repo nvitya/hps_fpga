@@ -38,7 +38,7 @@ This is much-much more challenging than I thought...
 And unfortunately I began with not the right examples and tutorials.
 
 So you want to communicate with your own FPGA code using your own ARM code on the HPS.
-There should be some address range reserved in the 4G space where you can map your own FPGA registers. Yes this is how it works.
+Usually there is some address range reserved in the 4G space where you can map your own FPGA registers. This is how it works here too.
 
 ## ALTERA SOC Memory Map
 This can be found at the Chapter 2-18 of Cyclone V HPS Reference Manual:
@@ -64,7 +64,7 @@ I've played only with the LW so far.
 You don't need to bother this if you are using the original Linux image from terasic.
 Unfortunately the LW bridge was deactivated in the Linux from Mr. Kawazome (https://github.com/ikwzm/FPGA-SoC-Linux).
 It took a while until I figured it out. And then additionally a litte to solve it.
-The compiled device tree must be placed to the boot partition at /mnt/boot fortunately there are the source files too (devicetree-5.4.105-socfpga.dts).
+The compiled device tree is to be found in thee boot partition at /mnt/boot. Fortunately there are the source files too (devicetree-5.4.105-socfpga.dts).
 Just search for "fpga_bridge@ff400000" and set the bridge-enable to 0x01.
 ```
     fpga_bridge@ff400000 {
@@ -80,7 +80,7 @@ Compile with
 ```
 # dtc -O dtb -o devicetree-5.4.105-socfpga.dtb devicetree-5.4.105-socfpga.dts
 ```
-And reboot and LW bridge is active.
+Reboot, and the LW bridge is active.
 You can check with "dmesg".
 
 ## AXI Bus
@@ -101,7 +101,7 @@ So interfacing something to the AXI bus is much more complicated than a traditio
 ## Aiding tool: Platform Designer aka. QSYS
 
 In the Quartus at the **Tools** menu can be found the **Platform Designer**. With this tool you can add IP cores visually bind them and set their properties.
-When it is ready you can generate the VHDL code from it, which has to be then added to the project.
+Then you can generate the VHDL code from it, which has to be then added to the project.
 
 The minimal requiremenst for controlling the FPGA LEDS are:
   - Clock Source (automatically added for new projects)
@@ -115,8 +115,11 @@ The Intel/Altera suggests to add the generated QIP file to the project.
 ## Compile/Synthesis time of 6 minutes
 I prefer the Altera/Intel tools (Quartus) over Xilinx because the synthesis runs much faster. Basically the Quartus runs twice as fast as the Xilinx ISE/Vivado.
 So I did not understand why such a small project takes 6 minutes to compile. There is a step at the beginning called "Analysis & Synthesis" which stops around 93% and stays there for 3 minutes... (The classical progress bar :))
+
 Ah, yeah I have fast AMD Ryzen 3700X (8 x 3.6GHz) PC, so that should not be a problem.
-I definitely don't want to wait every time for 3-4 minutes to find out I made a typing mistake at a signal name.
+
+I definitely don't want to wait every time for 3-4 minutes to find out that I made a typing mistake at a signal name.
+
 So this is a no-go. Sadly.
 
 ## Compile/Synthesis without QSYS
