@@ -120,10 +120,11 @@ I definitely don't want to wait every time for 3-4 minutes to find out I made a 
 So this is a no-go. Sadly.
 
 ## Compile/Synthesis without QSYS
-I made a test. Took all the QSYS (Platform Designer) generated files and the necessary IP cores, and added only those to the project without the QIP file.
+I made a test project "test4" (included in this repository). Took all the QSYS (Platform Designer) generated files and the necessary IP cores, and added only those to the project without the QIP file.
 I had to delete the SDRAM signals from some places. It took a while until I identified all the necessary components (like altera_merlin_burst_adapter_13_1.sv).
 But the end it worked.
 
-**Compile Time: 0:38 (38 seconds)** 
+**Compile Time: 0:35 (35 seconds)**
 
 Thats ok.
+
