@@ -22,7 +22,7 @@ The Terasic provides a Linux image with and Angström (?) Linux on it. The board
 **Not bad, but I prefer Debian.**
 
 I work with mc (Midnight Commander). If you learn it you can be much faster than using just the command line.
-And for other tools I like better to work on Debian/Ubuntu whatever... so easily extensible Linux without having enourmous compile times
+And also for installing other tools I like better to use Debian/Ubuntu whatever... actually an easily extensible Linux environment without having enourmous compile times.
 
 Luckily Mr. Ichiro Kawazome (https://github.com/ikwzm) published many of his works for FPGA-ARM SoC boards (including Zynq from Xilinx). And he made a howto for installing a Debian Linux with kernel version 5.4: https://github.com/ikwzm/FPGA-SoC-Linux
 
