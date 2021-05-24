@@ -14,7 +14,9 @@ The board can be used also for pure FPGA development, just like anoter board wit
 
 ## The Linux...
 The Terasic provides a Linux image with and Angström (?) Linux on it. The board has an intergrated FTDI USB-UART where you see the Linux console messages and you can log-in, check the board actual IP address, to log in via SSH for smoother control.
-### Not bad, but I prefer Debian.
+
+**Not bad, but I prefer Debian.**
+
 I work with mc (Midnight Commander). If you learn it you can be much faster than using just the command line.
 And for other tools I like better to work on Debian/Ubuntu whatever... so easily extensible Linux without having enourmous compile times
 
@@ -92,5 +94,13 @@ All of these channels are handshaked with their VALID and READY signals. Data ca
 
 So interfacing something to the AXI bus is much more complicated than a traditional ADDRESS, DATA, CSEL, RDEN, WREN bus.
 
+# Aiding tool: Platform Designer aka. QSYS
 
+In the Quartus at the **Tools** menu can be found the **Platform Designer**. With this tool you can add IP cores visually bind them and set their properties.
+When it is ready you can generate the VHDL code from it, which has to be then added to the project.
+
+The minimal requiremenst for controlling the FPGA LEDS are:
+  - Clock Source (automatically added for new projects)
+  - Arria/Cyclone V Hard Processor System
+  - PIO (Parallel IO) Intel FPGA IP
 
