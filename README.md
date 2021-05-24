@@ -78,4 +78,19 @@ And reboot and LW bridge is active.
 You can check with "dmesg".
 
 ## AXI Bus
-The AXI bus is the standard internal hi-speed bus intern in the ARM processors.
+The AXI bus is the standard internal hi-speed bus intern in the ARM processors, and this is used also for all the three HPS-FPGA bridges.
+It seems to me so, that even the lightweight bus at 0xFF20 0000 uses the "normal" AXI bus specification instead of the AXI Lite.
+
+An AXI bus consists of 5 unidirectional channels:
+  - --> Read Address 
+  - <-- Read Data 
+  - --> Write Address
+  - --> Write Data
+  - <-- Write Result
+
+All of these channels are handshaked with their VALID and READY signals. Data can be transferred in bursts, also with auto increment addresses.
+
+So interfacing something to the AXI bus is much more complicated than a traditional ADDRESS, DATA, CSEL, RDEN, WREN bus.
+
+
+
