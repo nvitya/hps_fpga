@@ -1,16 +1,16 @@
 # hps_fpga
 
-I Just want to write down (and share) my experiences with the DE0-Nano-SoC (or Atlas-SoC) board.
+I just want to write down (and share) my experiences with the DE0-Nano-SoC (or Atlas-SoC) board.
 
-I wanted to understand how it works, and I wanted to have a useable development environment with tolerable compile/synthesis times.j
+I wanted to understand how it works, and I wanted to have a useable development environment with tolerable compile/synthesis times.
 
 ## The Board
-The actual board I experienced with is a DE0-Nano-SoC but also called as Atlas-SoC. This has 
+The actual board I experiemented with is a DE0-Nano-SoC but also called as Atlas-SoC. This has 
   - 2x ARM Cortex A9 Cores at 925 MHz, also referenced as HPS (Hard Processor System)
   - A Cyclone V FPGA with 40k LUT
 
 ## Pure FPGA Development
-The board can be used also for pure FPGA development, just like anoter board without integrated Hard Processors. For the Altera/Intel development you need to download the Intel Quartus Lite with the Cyclone V package. The board has an integrated USB Blaster, so the FPGA development is easy.
+The board can be used also for pure FPGA development, just like anoter board without integrated Hard Processors. For the Altera/Intel development you need to download the Intel Quartus Lite with the Cyclone V package. The board has an integrated USB Blaster, so you don't need any additional HW for the FPGA development.
 
 ### Design Template
 There is a design template for the board here https://fpgacloud.intel.com/devstore/platform/17.0.0/Standard/atlas-soc-de0-nano-soc-baseline-pinout/
