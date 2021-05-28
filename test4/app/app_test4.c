@@ -5,7 +5,6 @@
 #include <fcntl.h>
 #include <time.h>
 #include <sys/mman.h>
-//#include "hps_0.h"
 #include <stdbool.h>
 
 /* ALTERA SOC Memory Map (Chapter 2-18 of Cyclone V HPS Reference Manual)
@@ -24,15 +23,14 @@ FC00_0000: Peripherals (64 MB)
 
 #define HW_REGS_BASE          0xFF200000  // LW slaves start address
 #define HW_REGS_SPAN          0x00200000  // LW slaves have 2M address space
-#define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
 #define LED_PIO_BASE 0
 
 volatile unsigned long *  h2p_lw_led_addr = NULL;
 
-int main(int argc, char **argv)
+int main(int argc, char ** argv)
 {
-	void *virtual_base;
+	void *  virtual_base;
 	int fd;
 	uint8_t ledcnt = 0;
 	
@@ -51,7 +49,7 @@ int main(int argc, char **argv)
 		return(1);
 	}
 	
-	h2p_lw_led_addr = virtual_base + ( ( unsigned long  )( LED_PIO_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
+	h2p_lw_led_addr = virtual_base + LED_PIO_BASE;
 	
 	printf("Displaying counter on the LEDS...\n");
 	
@@ -63,7 +61,9 @@ int main(int argc, char **argv)
 	  
 		usleep(100*1000);
 	}
-	
+
+  // cleanup for code that returns...
+
 	if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) 
 	{
 		printf( "ERROR: munmap() failed...\n" );
