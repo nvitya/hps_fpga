@@ -1,16 +1,16 @@
 # hps_fpga
 
-I Just want to write down (and share) my experiences with the DE0-Nano-SoC (or Atlas-SoC) board.
+I just want to write down (and share) my experiences with the DE0-Nano-SoC (or Atlas-SoC) board.
 
-I wanted to understand how it works, and I wanted to have a useable development environment with tolerable compile/synthesis times.j
+I wanted to understand how it works, and I wanted to have a useable development environment with tolerable compile/synthesis times.
 
 ## The Board
-The actual board I experienced with is a DE0-Nano-SoC but also called as Atlas-SoC. This has 
+The actual board I experiemented with is a DE0-Nano-SoC but also called as Atlas-SoC. This has 
   - 2x ARM Cortex A9 Cores at 925 MHz, also referenced as HPS (Hard Processor System)
   - A Cyclone V FPGA with 40k LUT
 
 ## Pure FPGA Development
-The board can be used also for pure FPGA development, just like anoter board without integrated Hard Processors. For the Altera/Intel development you need to download the Intel Quartus Lite with the Cyclone V package. The board has an integrated USB Blaster, so the FPGA development is easy.
+The board can be used also for pure FPGA development, just like anoter board without integrated Hard Processors. For the Altera/Intel development you need to download the Intel Quartus Lite with the Cyclone V package. The board has an integrated USB Blaster, so you don't need any additional HW for the FPGA development.
 
 ### Design Template
 There is a design template for the board here https://fpgacloud.intel.com/devstore/platform/17.0.0/Standard/atlas-soc-de0-nano-soc-baseline-pinout/
@@ -22,7 +22,7 @@ The Terasic provides a Linux image with and Angström (?) Linux on it. The board
 **Not bad, but I prefer Debian.**
 
 I work with mc (Midnight Commander). If you learn it you can be much faster than using just the command line.
-And for other tools I like better to work on Debian/Ubuntu whatever... so easily extensible Linux without having enourmous compile times
+And also for installing other tools I like better to use Debian/Ubuntu whatever... actually an easily extensible Linux environment without having enourmous compile times.
 
 Luckily Mr. Ichiro Kawazome (https://github.com/ikwzm) published many of his works for FPGA-ARM SoC boards (including Zynq from Xilinx). And he made a howto for installing a Debian Linux with kernel version 5.4: https://github.com/ikwzm/FPGA-SoC-Linux
 
@@ -38,7 +38,7 @@ This is much-much more challenging than I thought...
 And unfortunately I began with not the right examples and tutorials.
 
 So you want to communicate with your own FPGA code using your own ARM code on the HPS.
-There should be some address range reserved in the 4G space where you can map your own FPGA registers. Yes this is how it works.
+Usually there is some address range reserved in the 4G space where you can map your own FPGA registers. This is how it works here too.
 
 ## ALTERA SOC Memory Map
 This can be found at the Chapter 2-18 of Cyclone V HPS Reference Manual:
@@ -64,7 +64,7 @@ I've played only with the LW so far.
 You don't need to bother this if you are using the original Linux image from terasic.
 Unfortunately the LW bridge was deactivated in the Linux from Mr. Kawazome (https://github.com/ikwzm/FPGA-SoC-Linux).
 It took a while until I figured it out. And then additionally a litte to solve it.
-The compiled device tree must be placed to the boot partition at /mnt/boot fortunately there are the source files too (devicetree-5.4.105-socfpga.dts).
+The compiled device tree is to be found in thee boot partition at /mnt/boot. Fortunately there are the source files too (devicetree-5.4.105-socfpga.dts).
 Just search for "fpga_bridge@ff400000" and set the bridge-enable to 0x01.
 ```
     fpga_bridge@ff400000 {
@@ -80,7 +80,7 @@ Compile with
 ```
 # dtc -O dtb -o devicetree-5.4.105-socfpga.dtb devicetree-5.4.105-socfpga.dts
 ```
-And reboot and LW bridge is active.
+Reboot, and the LW bridge is active.
 You can check with "dmesg".
 
 ## AXI Bus
@@ -101,7 +101,7 @@ So interfacing something to the AXI bus is much more complicated than a traditio
 ## Aiding tool: Platform Designer aka. QSYS
 
 In the Quartus at the **Tools** menu can be found the **Platform Designer**. With this tool you can add IP cores visually bind them and set their properties.
-When it is ready you can generate the VHDL code from it, which has to be then added to the project.
+Then you can generate the VHDL code from it, which has to be then added to the project.
 
 The minimal requiremenst for controlling the FPGA LEDS are:
   - Clock Source (automatically added for new projects)
@@ -115,8 +115,11 @@ The Intel/Altera suggests to add the generated QIP file to the project.
 ## Compile/Synthesis time of 6 minutes
 I prefer the Altera/Intel tools (Quartus) over Xilinx because the synthesis runs much faster. Basically the Quartus runs twice as fast as the Xilinx ISE/Vivado.
 So I did not understand why such a small project takes 6 minutes to compile. There is a step at the beginning called "Analysis & Synthesis" which stops around 93% and stays there for 3 minutes... (The classical progress bar :))
+
 Ah, yeah I have fast AMD Ryzen 3700X (8 x 3.6GHz) PC, so that should not be a problem.
-I definitely don't want to wait every time for 3-4 minutes to find out I made a typing mistake at a signal name.
+
+I definitely don't want to wait every time for 3-4 minutes to find out that I made a typing mistake at a signal name.
+
 So this is a no-go. Sadly.
 
 ## Compile/Synthesis without QSYS
@@ -128,3 +131,17 @@ But the end it worked.
 
 Thats ok.
 
+## Loading the FPGA Bitstream
+Later the bitstream should be used via Device Tree overlays, which also defines the coupled kernel module (driver).
+For the developments it totally fine loading the bitstream manually using the Quartus/Tools/Programmer.
+The on board USB Blaster must be connected. For Linux dev. env. some one-time UDEV rules setup also required: https://rocketboards.org/foswiki/Documentation/UsingUSBBlasterUnderLinux.
+
+The Progammer Setup is a bit tricky here, because there is a HPS also in the JTAG chain. So first you have to press "Auto Detect", then add the .sof file to the FPGA part and delete the other FPGA part. And then the programming goes, the orange led beside the blue one signalises that the FPGA is configured.
+
+## Test App
+You can find the source codes of a test application at test4/app. There is a Makefile, so from linux, when the cross compiler arm-linux-gnueabihf-gcc installed, just compiles with "make".
+Copy the "app_test4" to the board with scp/sftp. Set the execution right bit with "chmod +x app_test4" and start with ./app_test4.
+
+Then hopefully the LEDs are displaying binary counting.
+
+In case of "bus error" please check the part "Activating the LW Bridge" earlier.
